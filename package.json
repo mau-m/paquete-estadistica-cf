@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mau-m/paquete-estadistica-cf.git"
+    "url": "git+https://github.com/mau-m/paquete-estadistica-cf.git"
   },
   "keywords": [],
   "author": "Mauricio Miranda",
