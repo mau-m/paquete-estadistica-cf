@@ -1,0 +1,34 @@
+name: Publicar paquete en Github Packages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publicar-paquete:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+       - name: Clonar repositorio
+         uses: actions/checkout@v4
+
+       # La acción setup-node crea un archivo .npmrc en el runner para publicar en GitHub Packages
+       # Usa como referencia el token de la variable de entorno NODE_AUTH_TOKEN (GITHUB_TOKEN en realidad)
+       - name: Configurar .npmrc
+         uses: actions/setup-node@v4
+         with:
+           node-version: '22.x'
+           registry-url: 'https://npm.pkg.github.com'
+           scope: '@mau-m' #Usuario u organización propietario del workflow
+
+       - name: Instalar dependencias usando versiones de package-lock.json
+         run: npm ci
+       - name: Publicar el paquete en GitHub Packages
+         run: npm publish
+         env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
